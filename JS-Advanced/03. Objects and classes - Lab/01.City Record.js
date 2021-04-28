@@ -9,6 +9,6 @@ function createCityRecord(name,numberOfPopulation,treasury) {
     return newCity;
 }
 
-let obj = createCityRecord('Tortuga', 7000, 15000);
+let city = createCityRecord('Tortuga', 7000, 15000);
 
-console.log(obj);
+console.log(city);
