@@ -1,14 +1,7 @@
-let car = {
-    make: 'Toyota',
-    model: 'Avensis',
-};
+function solve(input) {
+    let jsonData = input.shift();
+}
 
-let newObj = {
-    temp: 21,
-    tempSettings: 21,
-    adjustTemp: () => this.temp < this.tempSettings ? this.temp++ : this.temp--,
-};
+let input = ['[{"Name":"Stamat","Score":5.5},{"Name":"Rumen","Score":6}]'];
 
-car = Object.assign(car, newObj);
-
-console.log(car);
+solve(input);
