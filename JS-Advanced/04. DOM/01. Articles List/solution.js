@@ -11,8 +11,10 @@ function createArticle() {
 	article.appendChild(articleTitle);
 	article.appendChild(articleContent);
 	let articlesSection = document.getElementById('articles');
-	articlesSection.appendChild(listOfArticless);
-	listOfArticless.appendChild(article);
+	if (titleInput.value && contentInput.value) {
+		articlesSection.appendChild(listOfArticless);
+		listOfArticless.appendChild(article);
+	}
 	titleInput.value = '';
 	contentInput.value = '';
 }
