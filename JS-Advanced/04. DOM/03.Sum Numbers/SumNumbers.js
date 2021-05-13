@@ -1,3 +1,8 @@
 function calc() {
-    // TODO: sum = num1 + num2
+    let firstNum = parseInt(document.getElementById('num1').value);
+    let secondNum = parseInt(document.getElementById('num2').value);
+    let sum = firstNum + secondNum;
+    let resultField = document.getElementById('sum');
+    resultField.value = sum;
+
 }
