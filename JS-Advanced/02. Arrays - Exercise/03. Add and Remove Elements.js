@@ -7,13 +7,15 @@ function solve(params) {
             arr.pop();
         }
     }
-
+    if (arr.length === 0) {
+        return 'Empty';
+    }
     return arr.join('\n');
 }
 
-let array = ['add',
-    'add',
-    'add'];
+let array = ['remove',
+    'remove',
+    'remove'];
 
 
 

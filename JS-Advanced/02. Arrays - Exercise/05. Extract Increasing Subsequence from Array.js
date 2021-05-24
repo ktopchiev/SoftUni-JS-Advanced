@@ -1,22 +1,29 @@
 function extract(numbers) {
     let result = [];
+    let currentBiggest = numbers[0];
+    result.push(currentBiggest);
 
-    for (let i = 0; i < numbers.length - 1; i++) {
-        if (numbers[i] < numbers[i + 1]) {
-            result.push(numbers[i]);
+    for (let i = 1; i < numbers.length; i++) {
+        if (numbers[i] > currentBiggest) {
+            currentBiggest = numbers[i];
+            result.push(currentBiggest);
         } else {
-            result.push(numbers[i]);
-            i++;
+            continue;
         }
     }
 
     return result;
 }
 
-let arrayOfNumbers = [1, 
-    2, 
+let arrayOfNumbers = [
+    20,
     3,
-    4
-    ];
+    2,
+    15,
+    6,
+    1
+
+];
+
 
 console.log(extract(arrayOfNumbers));
