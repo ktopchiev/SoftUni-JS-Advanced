@@ -15,15 +15,11 @@ function extract(numbers) {
     return result;
 }
 
-let arrayOfNumbers = [
-    20,
+let arrayOfNumbers = [1, 
+    1,
     3,
-    2,
-    15,
-    6,
     1
-
-];
+    ];
 
 
 console.log(extract(arrayOfNumbers));
