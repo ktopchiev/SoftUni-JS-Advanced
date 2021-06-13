@@ -9,13 +9,13 @@ function solve() {
   let tableBody = document.getElementsByTagName('tbody')[0];
 
   buttonGenerate.addEventListener('click', (e) => {
-    let newFurniture = JSON.parse(inputArea.value);
+    let newFurnitureData = JSON.parse(inputArea.value);
 
-    newFurniture.forEach(element => {
-      let tableRow = document.createElement('tr');
-      let furnitureObject = element;
+    newFurnitureData.forEach(furnitureObj => {
+      let newTableRow = document.createElement('tr');
+      let furnitureObject = furnitureObj;
 
-      //Create table data
+      //Fill new data into the table row
       let td;
       for (const [key, value] of Object.entries(furnitureObject)) {
         td = document.createElement('td');
@@ -23,23 +23,24 @@ function solve() {
           let image = document.createElement('img');
           image.src = value;
           td.appendChild(image);
-          tableRow.prepend(td);
+          newTableRow.prepend(td);
         } else {
           let p = document.createElement('p');
           p.textContent = value;
           td.appendChild(p);
-          tableRow.appendChild(td);
+          newTableRow.appendChild(td);
         }
       }
 
+      //Put checkbox at the end of new row
       let checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       td = document.createElement('td');
       td.appendChild(checkbox);
 
-      //Append table data to new table row
-      tableRow.appendChild(td);
-      tableBody.appendChild(tableRow);
+      //Append the new table row to the table
+      newTableRow.appendChild(td);
+      tableBody.appendChild(newTableRow);
     });
   });
 
