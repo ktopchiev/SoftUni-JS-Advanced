@@ -9,10 +9,10 @@ function solve() {
     let sectionArchive = document.querySelector('#archive ul');
     let buttonClearArchive = sectionArchive.parentNode.querySelector('button');
 
-    buttonOnScreen.addEventListener('click', addMovie);
-    buttonClearArchive.addEventListener('click', clearArchive);
+    buttonOnScreen.addEventListener('click', addMovieToScreen);
+    buttonClearArchive.addEventListener('click', clearEntireArchive);
 
-    function addMovie(e) {
+    function addMovieToScreen(e) {
         e.preventDefault();
         let moviesListElement = document.createElement('li');
 
@@ -64,7 +64,7 @@ function solve() {
                 archiveTotalAmount.textContent = `Total amount: ${(Number(listInputValue) * Number(ticketPriceElement.textContent)).toFixed(2)}`;
                 let archiveDeleteButton = document.createElement('button');
                 archiveDeleteButton.textContent = 'Delete';
-                archiveDeleteButton.addEventListener('click', deleteArchive);
+                archiveDeleteButton.addEventListener('click', deleteMovieFromArchive);
 
                 newArchiveListElement.appendChild(archiveMovieName);
                 newArchiveListElement.appendChild(archiveTotalAmount);
@@ -74,14 +74,14 @@ function solve() {
                 sectionArchive.appendChild(newArchiveListElement);
             }
 
-            function deleteArchive(e) {
+            function deleteMovieFromArchive(e) {
                 let archiveElement = e.target.parentNode;
                 sectionArchive.removeChild(archiveElement);
             }
         }
     }
 
-    function clearArchive(e) {
+    function clearEntireArchive(e) {
         e.preventDefault();
         let archives = Array.from(sectionArchive.children);
         archives.forEach(e => {
