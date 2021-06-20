@@ -7,7 +7,6 @@ function validate(HTTPRequest) {
         message: '',
     };
 
-
     const URI_REGEX_PATTERN = /^([\w.]+)$/gm;
     const MESSAGE_REGEX_PATTERN = /^([^<>\\&'"]+)$/gm;
 
@@ -22,10 +21,7 @@ function validate(HTTPRequest) {
     function validateInputObjectProperties(object) {
         for (const key of Object.keys(validatorObject)) {
             if (!object.hasOwnProperty(key)) {
-                if (key === 'uri') {
-                    throw new Error(`Invalid request header: Invalid ${key.toUpperCase()}`);
-                }
-                throw new Error(`Invalid request header: Invalid ${key[0].toUpperCase() + key.substr(1)}`);
+                throw new Error(getErrorMessage(key));
             }
         }
     }
