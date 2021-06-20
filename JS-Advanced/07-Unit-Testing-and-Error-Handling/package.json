@@ -1,20 +1,18 @@
 {
-  "name": "07-Unit-Testing-and-Error-Handling",
+  "name": "07-unit-testing-and-error-handling",
   "version": "1.0.0",
-  "main": "test.js",
+  "description": "",
+  "main": "03-Char-lookup.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "mocha"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chai": "^4.3.4",
     "mocha": "^9.0.1"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {},
-  "description": ""
+  }
 }
