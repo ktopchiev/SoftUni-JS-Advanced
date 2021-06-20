@@ -11,26 +11,11 @@ function validate(HTTPRequest) {
     const URI_REGEX_PATTERN = /^([\w.]+)$/gm;
     const MESSAGE_REGEX_PATTERN = /^([^<>\\&'"]+)$/gm;
 
-    for (const [key, value] of Object.entries(HTTPRequest)) {
-        if (key === 'method' || key === 'version') {
-            let checkedMethod = validatorObject[key].find(e => e === value);
-            if (!checkedMethod) {
-                throw new Error(`Invalid request header: Invalid ${key[0].toUpperCase() + key.substr(1)}`);
-            } else {
-                validatorObject[key] = value;
-            }
-        } else if (key === 'uri') {
-            if (value !== '' && URI_REGEX_PATTERN.test(value) || value === '*') {
-                validatorObject[key] = value;
-            } else {
-                throw new Error(`Invalid request header: Invalid ${key.toUpperCase()}`);
-            }
-        } else if (key === 'message') {
-            if (value === '' || MESSAGE_REGEX_PATTERN.test(value)) {
-                validatorObject[key] = value;
-            } else {
-                throw new Error(`Invalid request header: Invalid ${key[0].toUpperCase() + key.substr(1)}`);
-            }
+    function getErrorMessage(key) {
+        if (key === 'uri') {
+            return `Invalid request header: Invalid ${key.toUpperCase()}`;
+        } else {
+            return `Invalid request header: Invalid ${key[0].toUpperCase() + key.substr(1)}`;
         }
     }
 
@@ -41,6 +26,29 @@ function validate(HTTPRequest) {
                     throw new Error(`Invalid request header: Invalid ${key.toUpperCase()}`);
                 }
                 throw new Error(`Invalid request header: Invalid ${key[0].toUpperCase() + key.substr(1)}`);
+            }
+        }
+    }
+
+    for (const [key, value] of Object.entries(HTTPRequest)) {
+        if (key === 'method' || key === 'version') {
+            let checkedMethod = validatorObject[key].find(e => e === value);
+            if (!checkedMethod) {
+                throw new Error(getErrorMessage(key));
+            } else {
+                validatorObject[key] = value;
+            }
+        } else if (key === 'uri') {
+            if (value !== '' && URI_REGEX_PATTERN.test(value) || value === '*') {
+                validatorObject[key] = value;
+            } else {
+                throw new Error(getErrorMessage(key));
+            }
+        } else if (key === 'message') {
+            if (value === '' || MESSAGE_REGEX_PATTERN.test(value)) {
+                validatorObject[key] = value;
+            } else {
+                throw new Error(getErrorMessage(key));
             }
         }
     }
