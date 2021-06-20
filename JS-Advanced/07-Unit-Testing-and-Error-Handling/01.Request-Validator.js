@@ -28,8 +28,8 @@ function validate(HTTPRequest) {
 
     for (const [key, value] of Object.entries(HTTPRequest)) {
         if (key === 'method' || key === 'version') {
-            let checkedMethod = validatorObject[key].find(e => e === value);
-            if (!checkedMethod) {
+            let findValue = validatorObject[key].find(e => e === value);
+            if (!findValue) {
                 throw new Error(getErrorMessage(key));
             } else {
                 validatorObject[key] = value;
