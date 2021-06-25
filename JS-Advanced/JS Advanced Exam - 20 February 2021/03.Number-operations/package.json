@@ -1,0 +1,20 @@
+{
+  "name": "03.number-operations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "03. Number Operations_Resources.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^4.3.4"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}
