@@ -1,48 +1,26 @@
+
 class Stringer {
-    innerString;
-    innerLength;
-    actualString;
-
-    constructor(string) {
-        this.innerString = string;
-        this.innerLength = string.length;
-        this.actualString = string;
+    constructor(someString, someLength) {
+        this.innerString = someString;
+        this.innerLength = Number(someLength);
     }
 
-    increase(length) {
-        if (length >= 0) {
-            let mainString = this.innerString;
-            let actualLength = this.innerLength;
-            mainString = mainString.substr(actualLength, mainString.length);
-            mainString = mainString.substr(0, length);
-            this.actualString = this.actualString.substr(0, actualLength);
-            this.actualString += mainString;
-            let leftDotsNumber = this.innerString.length - this.actualString.length;
-            this.actualString += '.'.repeat(leftDotsNumber);
-            this.innerLength += length;
-        }
-    }
+    decrease(number) {
+        this.innerLength = this.innerLength - Number(number) < 0 ? 0 : this.innerLength - Number(number);
+    };
 
-    decrease(length) {
-        if (length >= 0) {
-            if (length > this.innerLength) {
-                this.actualString = '.'.repeat(3);
-                this.innerLength = 0;
-            }
-            this.actualString = this.actualString.substring(0, this.innerLength - length);
-            this.innerLength = this.actualString.length;
-            this.actualString += '.'.repeat(length);
-        }
+    increase(number) {
+        this.innerLength += Number(number);
     }
 
     toString() {
-        if (this.innerLength > this.innerString.length) {
-            this.actualString = this.actualString.substr(0, this.innerString.length)
-            return this.actualString += '...';
-        } else if (this.innerLength === 0) {
-            return '...';
+        if (this.innerLength === 0) {
+            return '...'
+        } else if (this.innerString.length <= this.innerLength) {
+            return this.innerString;
+        } else {
+            return this.innerString.slice(0, this.innerLength) + '...'
         }
-        return this.actualString;
     }
 }
 
