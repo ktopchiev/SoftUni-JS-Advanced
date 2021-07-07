@@ -15,7 +15,7 @@ function attachEvents() {
 
     function getWeather() {
 
-        clearForecastsDiv();
+        clearForecastsDivs();
 
         fetch(`${locationsBaseUrl}`)
             .then(res => {
@@ -59,7 +59,7 @@ function attachEvents() {
 
                 forecastsInfoDiv.classList.add('forecasts');
                 symbolSpan.classList.add('condition', 'symbol');
-                symbolSpan.textContent = getSymbol(data.forecast.condition);
+                symbolSpan.textContent = getWeatherSymbol(data.forecast.condition);
                 conditionSpan.classList.add('condition');
                 cityNameForecastData.textContent = data.name;
                 temperatureString = `${data.forecast.low}\u00B0/${data.forecast.high}\u00B0`;
@@ -68,9 +68,9 @@ function attachEvents() {
 
                 let spanData = [cityNameForecastData, temperatureForecastData, conditionForecastData];
 
-                setForecastDataClass(spanData);
+                setForecastDataClassToSpans(spanData);
 
-                appendCurrentDataToConditionSpan(conditionSpan, spanData);
+                appendCurrentDataSpansToConditionSpan(conditionSpan, spanData);
 
                 appendCurrentSpansToForecastsDiv(forecastsInfoDiv, symbolSpan, conditionSpan);
 
@@ -90,7 +90,7 @@ function attachEvents() {
                     let temperatureString = '';
 
                     symbolSpan.classList.add('symbol');
-                    symbolSpan.textContent = getSymbol(element.condition);
+                    symbolSpan.textContent = getWeatherSymbol(element.condition);
                     conditionSpan.classList.add('upcoming');
                     temperatureString = `${element.low}\u00B0/${element.high}\u00B0`;
                     temperatureForecastData.textContent = temperatureString;
@@ -98,9 +98,9 @@ function attachEvents() {
 
                     let spanData = [symbolSpan, temperatureForecastData, conditionForecastData];
 
-                    setForecastDataClass(spanData);
+                    setForecastDataClassToSpans(spanData);
 
-                    appendCurrentDataToConditionSpan(conditionSpan, spanData);
+                    appendCurrentDataSpansToConditionSpan(conditionSpan, spanData);
 
                     appendCurrentSpansToForecastsDiv(forecastsInfoDiv, conditionSpan);
 
@@ -119,20 +119,20 @@ function attachEvents() {
             })
         }
 
-        function appendCurrentDataToConditionSpan(span, spanData) {
+        function appendCurrentDataSpansToConditionSpan(span, spanData) {
 
             spanData.forEach(element => {
                 span.appendChild(element);
             })
         }
 
-        function setForecastDataClass(spanData) {
+        function setForecastDataClassToSpans(spanData) {
             spanData.forEach(element => {
                 element.classList.add('forecast-data');
             });
         }
 
-        function clearForecastsDiv() {
+        function clearForecastsDivs() {
             let currentForecastsDiv = document.querySelector('div.forecasts');
             let upcommingForecastsDiv = document.querySelector('div.forecast-info');
 
@@ -148,7 +148,7 @@ function attachEvents() {
                 currentConditionsDiv.removeChild(currentForecastsDiv);
                 upcomingConditionsDiv.removeChild(upcommingForecastsDiv);
             }
-
+            //Clear error message if it exists
             let errorMessage = mainForecastDiv.querySelector('#error-message');
             if (errorMessage) {
                 mainForecastDiv.removeChild(errorMessage);
@@ -163,7 +163,7 @@ function attachEvents() {
             mainForecastDiv.style.display = 'block';
         }
 
-        function getSymbol(weatherCondition) {
+        function getWeatherSymbol(weatherCondition) {
             let symbolCode;
 
             switch (weatherCondition) {
