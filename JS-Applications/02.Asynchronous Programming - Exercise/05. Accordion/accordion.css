@@ -9,6 +9,7 @@ body {
   display: inline-block;
   width: 40%;
   font-size: 1.3rem;
+  margin: 10px;
 }
 
 .accordion p {
