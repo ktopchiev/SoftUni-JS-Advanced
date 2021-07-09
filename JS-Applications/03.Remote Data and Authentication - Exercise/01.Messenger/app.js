@@ -1,46 +1,72 @@
-const url = 'http://localhost:3030/jsonstore/messenger';
-const messages = document.getElementById('messages');
-const notification = document.querySelector('.notification');
-
-function attachEvents() {
-    document.getElementById('submit').addEventListener('click', postMessage);
-    document.getElementById('refresh').addEventListener('click', loadAllMessages);
-}
+let baseUrl = 'http://localhost:3030/jsonstore/messenger';
+let textArea = document.getElementById('messages');
+let nameInput = document.getElementById('author');
+let contentInput = document.getElementById('content');
 
 attachEvents();
 
-async function postMessage() {
-    const [author, content] = [document.getElementById('author'), document.getElementById('content')];
-    notification.textContent = '';
-    if (author.value == '' || content.value == '') { 
-        notification.textContent = 'All fields are required!';
-        return;
-     }
-    await request(url, { author: author.value, content: content.value });
-    messages.value += `\n${author.value}: ${content.value}`;
-    [author, content].map(x => x.value = '');
+function attachEvents() {
+    let sendButton = document.getElementById('submit')
+        .addEventListener('click', sendData);
+    let refreshButton = document.getElementById('refresh')
+        .addEventListener('click', refreshData);
 }
-async function loadAllMessages() {
-    try {
-        const data = await request(url);
-        messages.value = Object.values(data).map(({ author, content }) => `${author}: ${content}`).join('\n');
-    } catch (error) {
-        messages.value = 'Error';
+
+function refreshData() {
+    fetch(baseUrl)
+    .then(response => response.json())
+    .then(data => {
+        let messagesString = '';
+        for (const key in data) {
+            let author = data[key].author;
+            let content = data[key].content
+            messagesString += `${author}: ${content}\n`;
+        }
+        textArea.textContent = messagesString;
+    })
+    .catch(error => console.error(error));
+}
+
+function sendData() {
+
+    let authorInputValue = nameInput.value;
+    let contentInputValue = contentInput.value;
+    let notification = document.querySelector('div#controls p');
+
+    if (!validateInput(authorInputValue, contentInputValue)){
+        notification.textContent = 'Fields cannot be empty!';
+        return;
+    } else {
+        notification.textContent = '';;
+    }
+
+    const data = createDataObject(authorInputValue, contentInputValue);
+
+    fetch(baseUrl, {
+        method: 'POST',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+
+    clearInputFields();
+}
+
+function validateInput(author, content) {
+    if(author !== '' || content !== '') {
+        return true;
+    }
+
+    return false;
+}
+
+function createDataObject(author, content) {
+    return {
+        author: author,
+        content: content
     }
 }
 
-async function request(url, option) {
-    if (option) {
-        option = {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(option)
-        };
-    }
-    const response = await fetch(url, option);
-    if (!response.ok) {
-        const { message } = response.json();
-        throw new Error(message);
-    }
-    return response.json();
+function clearInputFields() {
+    nameInput.value = '';
+    contentInput.value = '';
 }
