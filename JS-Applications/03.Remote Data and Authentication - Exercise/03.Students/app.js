@@ -1,63 +1,86 @@
-const url = 'http://localhost:3030/jsonstore/collections/students/';
-const [tbody, notification] = [document.querySelector('#results tbody'), document.querySelector('.notification')];
-const notify = (ref, message) => [ref.textContent = message, setTimeout(() => ref.textContent = '', 2000)];
+let baseUrl = 'http://localhost:3030/jsonstore/collections/students';
+let formElement = document.querySelector('form#form');
+let resultTable = document.querySelector('table#results');
 
-(() => {
-    loadData();
-    document.getElementById('form').addEventListener('submit', createRecod);
-})();
+attachEvents();
 
-async function loadData() {
-    tbody.innerHTML = '';
-    try {
-        const data = await request(url, 'get');
-        Object.values(data)
-            .sort((a, b) => b.grade - a.grade)
-            .map((x, i) => createRow(i + 1, x)).forEach(x => tbody.appendChild(x));
-
-    } catch (error) {
-        notify(notification, 'Something went wrong while fetching data');
-    }
+function attachEvents() {
+    window.addEventListener('load', loadStudents);
+    formElement.addEventListener('submit', appendStudent);
 }
 
-async function createRecod(e) {
-    try {
-        await request(url, 'post', getData(e));
-        loadData();
-        e.target.reset();
-    } catch (error) {
-        notify(notification, error.toString().replace('Error: ', ''));
-    }
+function loadStudents() {
+    clearStudentsTable();
+    fetch(baseUrl)
+        .then(response => response.json())
+        .then(students => {
+            loadTableData(students);
+        })
+        .catch(error => console.error(error));
 }
 
-function getData(e) {
+function appendStudent(e) {
     e.preventDefault();
-    const data = [... new FormData(e.target)].reduce((a, [k, v]) => ({ ...a, ...{ [k]: v } }), {});
-    if (Object.values(data).some(x => x === '')) {
-        throw new Error('All fields are required!');
+    const inputData = new FormData(e.currentTarget);
+    let [firstName, lastName, facultyNumber, grade] = [
+        inputData.get('firstName').trim(),
+        inputData.get('lastName').trim(),
+        inputData.get('facultyNumber').trim(),
+        inputData.get('grade').trim()
+    ];
+
+    let validate = validateForm(firstName, lastName, facultyNumber, grade);
+    let notification = document.querySelector('form#form p.notification');
+    
+    if (validate) {
+        notification.textContent = 'All fields are required!';
+        return;
+    } else {
+        notification.textContent = '';
     }
-    return data;
+
+    const data = createNewDataObject(firstName, lastName, facultyNumber, grade);
+    fetch(baseUrl, {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+        .catch(error => console.error(error));
+    loadStudents();
+    e.currentTarget.reset();
 }
 
-async function request(url, type, body) {
-    const option = { method: type, headers: { 'Content-Type': 'application/json' } };
-    if (body) { option.body = JSON.stringify(body); }
-    const response = await fetch(url, option);
-    if (!response.ok) {
-        const { message } = await response.json();
-        throw new Error(message);
+function createNewDataObject(firstName, lastName, facultyNumber, grade) {
+    return {
+        firstName: firstName,
+        lastName: lastName,
+        facultyNumber: facultyNumber,
+        grade: grade
     }
-    return response.json();
 }
 
-function create(type, ...content) {
-    const el = document.createElement(type);
-    content.map(c => typeof c === 'string' ? el.textContent = c : Array.isArray(c) ? el.setAttribute(c[0], c[1]) : el.appendChild(c));
-    return el;
+function loadTableData(students) {
+    const tableBody = resultTable.querySelector('tbody');
+    for (const student in students) {
+        let row = tableBody.insertRow();
+        let firstName = row.insertCell(0);
+        firstName.textContent = students[student].firstName;
+        let lastName = row.insertCell(1);
+        lastName.textContent = students[student].lastName;
+        let facultyNumber = row.insertCell(2);
+        facultyNumber.textContent = students[student].facultyNumber;
+        let grade = row.insertCell(3);
+        grade.textContent = students[student].grade;
+    }
 }
 
-function createRow(i, { facultyNumber, firstName, grade, lastName, _id }) {
-    return create('tr', ['data-id', _id], create('td', `${i}. ${firstName}`), create('td', lastName),
-        create('td', facultyNumber), create('td', Number(grade).toFixed(2))
-    );
+function clearStudentsTable() {
+    let tableBody = resultTable.querySelector('tbody');
+    while (tableBody.firstChild) {
+        tableBody.firstChild.remove();
+    }
+}
+
+function validateForm(...inputFields) {
+    return inputFields.includes('');
 }
