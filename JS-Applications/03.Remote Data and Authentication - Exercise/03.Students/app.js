@@ -29,10 +29,10 @@ function appendStudent(e) {
         inputData.get('grade').trim()
     ];
 
-    let validate = validateForm(firstName, lastName, facultyNumber, grade);
+    let hasEmptyFields = inputFormHasEmptyFields(firstName, lastName, facultyNumber, grade);
     let notification = document.querySelector('form#form p.notification');
-    
-    if (validate) {
+
+    if (hasEmptyFields) {
         notification.textContent = 'All fields are required!';
         return;
     } else {
@@ -61,16 +61,11 @@ function createNewDataObject(firstName, lastName, facultyNumber, grade) {
 
 function loadTableData(students) {
     const tableBody = resultTable.querySelector('tbody');
-    for (const student in students) {
+    for (const [id, student] of Object.entries(students)) {
         let row = tableBody.insertRow();
-        let firstName = row.insertCell(0);
-        firstName.textContent = students[student].firstName;
-        let lastName = row.insertCell(1);
-        lastName.textContent = students[student].lastName;
-        let facultyNumber = row.insertCell(2);
-        facultyNumber.textContent = students[student].facultyNumber;
-        let grade = row.insertCell(3);
-        grade.textContent = students[student].grade;
+        for (let i = 0; i < resultTable.rows[0].cells.length; i++) {
+            row.insertCell(i).textContent = Object.entries(student)[i][1];
+        }
     }
 }
 
@@ -81,6 +76,6 @@ function clearStudentsTable() {
     }
 }
 
-function validateForm(...inputFields) {
+function inputFormHasEmptyFields(...inputFields) {
     return inputFields.includes('');
 }
