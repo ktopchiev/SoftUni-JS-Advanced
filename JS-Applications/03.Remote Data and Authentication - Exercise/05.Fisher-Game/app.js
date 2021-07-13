@@ -1,185 +1,207 @@
-let usersBaseUrl = 'http://localhost:3030/users';
-let catchesBaseUrl = 'http://localhost:3030/data/catches';
 
-let guestNavigation = document.getElementById('guest');
-guestNavigation.style.display = 'inline';
-let welcomeParagraph = document.querySelector('nav p.email span');
-welcomeParagraph.textContent = 'guest';
+import { ce } from './dom.js';
 
-let userNavigation = document.getElementById('user');
+const catchesElement = document.getElementById('catches');
+const loginElement = document.getElementById('guest');
+const logoutElement = document.getElementById('user');
 
-let loginLink = document.querySelector('a#login');
-let registerLink = document.querySelector('a#register');
+if (sessionStorage.getItem('userToken')) {
+    loginElement.style.display = 'none';
+    logoutElement.style.display = 'inline-block';
+} 
+function attachEvents() {
+    const addBtn = document.querySelector('#addForm button.add');
+    addBtn.disabled = sessionStorage.getItem('userToken') ? false : true;
+    addBtn.addEventListener('click', addNewCatch);
 
-let mainSection = document.getElementsByTagName('main')[0];
+    [...catchesElement.children].forEach(x => x.remove());
+    document.getElementById('loadCatches').addEventListener('click', loadCatches);
+    catchesElement.addEventListener('click', editHandler);
 
-let loginView = document.querySelector('#login-view');
-let views = document.querySelector('#views');
-mainSection.appendChild(views);
-let registerView = document.querySelector('#register-view');
-let homeView = document.querySelector('#home-view');
-let mainFieldset = homeView.querySelector('fieldset#main');
-let loginForm = loginView.querySelector('form#login');
+    logoutElement.addEventListener('click',logout);
+}
 
-let loadButton = homeView.querySelector('aside > button');
-let addForm = homeView.querySelector('#addForm');
-let catchesDiv = homeView.querySelector('#catches');
-let addNewCatchButton = addForm.querySelector('button');
+async function logout() {
+    const token = sessionStorage.getItem('userToken');
+    console.log(token);
+    const url = 'http:localhost:3030/users/logout';
 
-let registerForm = registerView.querySelector('form#register');
+    //AJAX Request GET
+    await fetch(url,{
+        method: 'GET',
+        headers: {'X-Authorization':token},
+    });
+
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('userToken');
+
+    loginElement.style.display = 'inline-block';
+    logoutElement.style.display = 'none';
+
+    document.getElementById('user').style.display = 'none';
+    window.location.pathname = '05.Fisher-Game/index.html';
+
+}
+
+async function loadCatches() {
+    [...catchesElement.children].forEach(x => x.remove());
+    const url = 'http://localhost:3030/data/catches';
+
+    //AJAX Request GET
+    const response = await fetch(url);
+    const data = await response.json();
+    Object.values(data).forEach((value) => catchesElement.appendChild(createCatch(value)));
+}
+
+async function addNewCatch(e) {
+    const currentCatch = document.getElementById('addForm')
+    const angler = currentCatch.querySelector('.angler');
+    const weight = currentCatch.querySelector('.weight');
+    const species = currentCatch.querySelector('.species');
+    const location = currentCatch.querySelector('.location');
+    const bait = currentCatch.querySelector('.bait');
+    const captureTime = currentCatch.querySelector('.captureTime');
+    const token = sessionStorage.getItem('userToken');
+    const aside = document.querySelector('aside');
+
+    if (!angler.value || !weight.value || !species.value || !location.value || !bait.value || !captureTime.value) {
+        if (!aside.querySelector('span')) {
+            const spanElement = ce('span', { style: 'color:red' }, 'Invalid input!');
+            aside.appendChild(spanElement);
+        }
+        return;
+    }
+
+    if (aside.querySelector('span')) {
+        aside.querySelector('span').remove();
+    }
+
+    const obj = {
+        angler: angler.value,
+        weight: Number(weight.value),
+        species: species.value,
+        location: location.value,
+        bait: bait.value,
+        captureTime: Number(captureTime.value),
+    }
+
+    angler.value = '';
+    weight.value = '';
+    species.value = '';
+    location.value = '';
+    bait.value = '';
+    captureTime.value = '';
+
+    //AJAX Request POST
+    const url = 'http://localhost:3030/data/catches';
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': token,
+        },
+        body: JSON.stringify(obj),
+    });
+
+
+    if (response.ok) {
+        const data = await response.json();
+        catchesElement.appendChild(createCatch(data));
+    } else {
+        const error = await response.json();
+        console.error(error.message);
+    }
+}
+
+async function editHandler(e) {
+    if (e.target.className == 'update') {
+        const currentCatch = e.target.parentElement;
+        const catchId = currentCatch.dataset.id;
+        const token = sessionStorage.getItem('userToken');
+
+        const angler = currentCatch.querySelector('.angler');
+        const weight = currentCatch.querySelector('.weight');
+        const species = currentCatch.querySelector('.species');
+        const location = currentCatch.querySelector('.location');
+        const bait = currentCatch.querySelector('.bait');
+        const captureTime = currentCatch.querySelector('.captureTime');
+
+        const obj = {
+            angler: angler.value,
+            weight: Number(weight.value),
+            species: species.value,
+            location: location.value,
+            bait: bait.value,
+            captureTime: Number(captureTime.value),
+        }
+        const url = `http://localhost:3030/data/catches/${catchId}`;
+
+        //AJAX Request PUT
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': token
+            },
+            body: JSON.stringify(obj),
+        });
+    } else if (e.target.className == 'delete') {
+        const currentCatch = e.target.parentElement;
+        const catchId = currentCatch.dataset.id;
+        const token = sessionStorage.getItem('userToken');
+
+        const url = `http://localhost:3030/data/catches/${catchId}`;
+
+        //AJAX Request DELETE
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: { 'X-Authorization': token },
+        });
+        currentCatch.remove();
+    }
+}
+function createCatch(value) {
+    const labelAngler = ce('label', undefined, 'Angler');
+    const inputAngler = ce('input', { class: 'angler' }, value.angler);
+    const hrOne = ce('hr');
+
+    const labelWeight = ce('label', undefined, 'Weight');
+    const inputWeight = ce('input', { class: 'weight' }, Number(value.weight));
+    const hrTwo = ce('hr');
+
+    const labelSpecies = ce('label', undefined, 'Species');
+    const inputSpecies = ce('input', { class: 'species' }, value.species);
+    const hrThree = ce('hr');
+
+    const labelLocation = ce('label', undefined, 'Location');
+    const inputLocation = ce('input', { class: 'location' }, value.location);
+    const hrFour = ce('hr');
+
+    const labelBait = ce('label', undefined, 'Bait');
+    const inputBait = ce('input', { class: 'bait' }, value.bait);
+    const hrFive = ce('hr');
+
+    const labelCaptureTime = ce('label', undefined, 'Capture Time');
+    const inputCaptureTime = ce('input', { class: 'captureTime' }, Number(value.captureTime));
+    const hrSix = ce('hr');
+
+    const btnUpdate = ce('button', { class: 'update' }, 'Update');
+    btnUpdate.disabled = value._ownerId == sessionStorage.getItem('userId') ? false : true;
+    const btnDelete = ce('button', { class: 'delete' }, 'Delete');
+    btnDelete.disabled = value._ownerId == sessionStorage.getItem('userId') ? false : true;
+
+    const divElement = ce('div', { class: 'catch', 'data-id': value._id });
+    divElement.append(
+        labelAngler, inputAngler, hrOne,
+        labelWeight, inputWeight, hrTwo,
+        labelSpecies, inputSpecies, hrThree,
+        labelLocation, inputLocation, hrFour,
+        labelBait, inputBait, hrFive,
+        labelCaptureTime, inputCaptureTime, hrSix,
+        btnUpdate, btnDelete,
+    );
+    console.log(divElement);
+    return divElement;
+}
 
 attachEvents();
-
-function attachEvents() {
-    loginLink.addEventListener('click', showLoginView);
-    loginForm.addEventListener('submit', logIn);
-    loadButton.addEventListener('click', loadCatches);
-    registerLink.addEventListener('click', showRegisterView);
-    registerForm.addEventListener('submit', register);
-
-}
-
-function showLoginView() {
-    views.style.display = 'inline-block';
-    registerView.style.display = 'none';
-    homeView.style.display = 'none';
-}
-
-function hideLoginView() {
-    views.style.display = 'inline-block';
-    registerView.style.display = 'none';
-    loginView.style.display = 'none';
-}
-
-function showRegisterView() {
-    hideLoginView();
-    views.style.display = 'inline-block';
-    registerView.style.display = 'inline-block';
-    homeView.style.display = 'none';
-}
-
-function logIn(e) {
-    e.preventDefault();
-    let formData = new FormData(e.currentTarget);
-    let data = {
-        email: formData.get('email'),
-        password: formData.get('password')
-    }
-
-    fetch(`${usersBaseUrl}/login`, {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            if (response.ok) {
-                notify(loginForm, response);
-                displayHomePage();
-                return response.json();
-            } else {
-                notify(loginForm, response);
-            }
-        })
-        .then(userData => {
-            changeNavBar(userData);
-            localStorage.setItem('accessToken', userData.accessToken);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-function register(e) {
-    e.preventDefault();
-    let formData = new FormData(e.currentTarget);
-    let data = {
-        email: formData.get('email'),
-        password: formData.get('password')
-    }
-
-    fetch(`${usersBaseUrl}/register`, {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            if (response.ok) {
-                notify(registerForm, response);
-                return response.json();
-            } else {
-                notify(registerForm, response);
-            }
-        })
-        .then(userData => {
-            changeNavBar(userData);
-            localStorage.setItem('accessToken', userData.accessToken);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-function changeNavBar(data) {
-    welcomeParagraph.textContent = `${data.email}`;
-    guestNavigation.style.display = 'none';
-    userNavigation.style.display = 'inline';
-}
-
-function displayHomePage() {
-    hideLoginView();
-    homeView.style.display = 'flex';
-    mainFieldset.style.display = 'flex';
-    addNewCatchButton.disabled = false;
-}
-
-function loadCatches() {
-    fetch(catchesBaseUrl)
-        .then(response => response.json())
-        .then(catches => {
-            catches.forEach(catchData => {
-                let newCatchForm = cloneCatchForm(catchData);
-                console.log(newCatchForm);
-                catchesDiv.appendChild(newCatchForm);
-            })
-        })
-        .catch(error => console.error(error));
-}
-
-function cloneCatchFormTemplate(data) {
-    let newCatchForm = addForm.cloneNode(true);
-    newCatchForm.querySelector('legend').textContent = '';
-
-    newCatchForm.querySelector('input[name="angler"]').value = data.angler;
-    newCatchForm.querySelector('input[name="weight"]').value = data.weight;
-    newCatchForm.querySelector('input[name="species"]').value = data.species;
-    newCatchForm.querySelector('input[name="location"]').value = data.location;
-    newCatchForm.querySelector('input[name="bait"]').value = data.bait;
-    newCatchForm.querySelector('input[name="captureTime"]').value = data.captureTime;
-
-    let updateCatchButton = document.createElement('button');
-    updateCatchButton.classList.add('update');
-    updateCatchButton.textContent = 'UPDATE';
-    let deleteCatchButton = document.createElement('button');
-    deleteCatchButton.classList.add('delete');
-    deleteCatchButton.textContent = 'DELETE';
-
-    newCatchForm.querySelector('button').remove();
-    newCatchForm.classList.add('catch');
-    newCatchForm.id = "";
-    newCatchForm.querySelector('fieldset').style.border = 'none';
-    newCatchForm.querySelector('fieldset').style.display = 'block';
-
-    newCatchForm.appendChild(updateCatchButton);
-    newCatchForm.appendChild(deleteCatchButton);
-    //TODO: Only current user's buttons should be active.
-    return newCatchForm;
-}
-
-function notify(form, response) {
-    let notification = form.querySelector('p.notification');
-    if (response.ok) {
-        notification.textContent = '';
-    } else {
-        notification.textContent = 'Invalid data!';
-    }
-}
