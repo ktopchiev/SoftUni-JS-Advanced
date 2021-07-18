@@ -1,3 +1,5 @@
+import createElement from "./createElement.js";
+
 export default function updateTopicContent(comment) {
     let userCommentDiv = document.createElement('div');
     let topicNameWrapperDiv = createElement('div', 'topic-name-wrapper');
@@ -8,23 +10,18 @@ export default function updateTopicContent(comment) {
     let postContentDiv = createElement('div', 'post-content');
     let postContentParagraph = document.createElement('p');
 
-    postContentParagraph.textContent = comment.content;
+    postContentParagraph.textContent = comment.comment;
     timeElement.textContent = comment.time;
-    userNameStrong.textContent = comment.author;
-    topicNameParagraph.textContent = ' commented on ';
+    userNameStrong.textContent = comment.username;
 
     postContentDiv.appendChild(postContentParagraph);
     topicNameParagraph.appendChild(userNameStrong);
     topicNameParagraph.appendChild(timeElement);
+    userNameStrong.insertAdjacentText('afterend', ' commented on ');
     topicNameDiv.appendChild(topicNameParagraph);
+    topicNameDiv.appendChild(postContentDiv);
     topicNameWrapperDiv.appendChild(topicNameDiv);
     userCommentDiv.appendChild(topicNameWrapperDiv);
 
     return userCommentDiv;
-}
-
-function createElement(type, clss) {
-    let newElement = document.createElement(type);
-    newElement.classList.add(clss);
-    return newElement;
 }

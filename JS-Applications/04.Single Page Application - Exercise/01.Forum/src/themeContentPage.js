@@ -17,8 +17,8 @@ function showThemeContent(id) {
         .then(res => res.json())
         .then(comments => {
             for (const comment in comments) {
-                if (comment.topicId === id) {
-                    let updatedElement = updateTopicContent(comment);
+                if (comments[comment].topicId === id) {
+                    let updatedElement = updateTopicContent(comments[comment]);
                     fragment.appendChild(updatedElement);
                 }
             }
@@ -39,7 +39,7 @@ function showThemeContent(id) {
                     let topicHeader = createTopicContentHeader(topic.username, topic.time, topic.postText);
                     let themeContentDiv = commentsCointainer.firstElementChild;
                     themeContentDiv.insertBefore(topicHeader, themeContentDiv.childNodes[4]);
-                    commentsCointainer.appendChild(fragment);
+                    commentsCointainer.querySelector('div.comment').appendChild(fragment);
                     commentsCointainer.classList.remove('hidden');
                 })
         })
@@ -64,6 +64,7 @@ function postNewComment(e) {
         .then(res => res.json())
         .then(data => {
             commentForm.reset();
+            showThemeContent(data.topicId);
         })
         .catch(error => console.error(error));
 }
