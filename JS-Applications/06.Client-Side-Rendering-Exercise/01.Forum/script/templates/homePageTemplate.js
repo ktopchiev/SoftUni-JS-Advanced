@@ -4,7 +4,7 @@ import showForm from './createTopicFormTemplate.js';
 import footer from './footerTemplate.js';
 import { topicWrapper } from './topicWrapper.js';
 
-const showHomePage = (topics) => html`
+const homePage = (topics) => html`
     
     <header>
         ${navBar}
@@ -32,4 +32,4 @@ const showHomePage = (topics) => html`
     </footer>
 `;
 
-export default showHomePage;
+export default homePage;

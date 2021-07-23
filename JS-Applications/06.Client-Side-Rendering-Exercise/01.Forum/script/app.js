@@ -1,8 +1,9 @@
 import { html, render } from '../node_modules/lit-html/lit-html.js';
-import showHomePage from './templates/homePageTemplate.js';
+import homePage from './templates/homePageTemplate.js';
+import { getTopics } from './service/fetchTopics.js';
 
 const rootDiv = document.getElementsByClassName('root')[0];
 
-
-
-render(showHomePage(topics), rootDiv);
+getTopics.then(topics => {
+    render(homePage(Object.entries(topics)), rootDiv);
+});
