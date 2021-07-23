@@ -1,11 +1,12 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
+import { postFormData } from '../../postFormData.js';
 
 const showForm = html`
     <div class="new-topic-border">
         <div class="header-background">
             <span>New Topic</span>
         </div>
-        <form>
+        <form id="topicForm">
             <div class="new-topic-title">
                 <label for="topicName">Title <span class="red">*</span></label>
                 <input type="text" name="topicName" id="topicName">
@@ -20,7 +21,7 @@ const showForm = html`
             </div>
             <div class="new-topic-buttons">
                 <button class="cancel">Cancel</button>
-                <button class="public">Post</button>
+                <button @click=${postFormData} class="public">Post</button>
             </div>
     
         </form>

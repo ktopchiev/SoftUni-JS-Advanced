@@ -19,7 +19,6 @@ const homePage = (topics) => html`
 
                 <!-- topic component  -->
                 <div class="topic-container">
-                    ${console.log(topics)}
                     ${topics.map(topic => html`${topicWrapper(topic)}`)}
                 </div>
                 
