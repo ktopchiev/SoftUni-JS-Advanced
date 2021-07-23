@@ -1,8 +1,8 @@
-import {html} from '../../node_modules/lit-html/lit-html.js';
-import navBar from './navbarTemplate.js';
-import showForm from './createTopicFormTemplate.js';
-import footer from './footerTemplate.js';
-import { topicWrapper } from './topicWrapper.js';
+import {html} from '../../../node_modules/lit-html/lit-html.js';
+import navBar from '../views/navbarView.js';
+import showForm from '../views/topicCreateFormView.js';
+import footer from '../views/footerView.js';
+import { topicWrapper } from '../views/topicWrapperView.js';
 
 const homePage = (topics) => html`
     

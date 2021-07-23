@@ -1,4 +1,4 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
+import { html } from '../../../node_modules/lit-html/lit-html.js';;
 
 const footer = html`
     <p>This site is designed to be used for training purposes at SoftUni.</p>
