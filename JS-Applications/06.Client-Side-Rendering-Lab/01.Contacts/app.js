@@ -6,9 +6,8 @@ function showDetails(e) {
     e.preventDefault();
     let parent = e.target.parentNode;
     let details = parent.querySelector('div.details');
-    console.log(details.style.display);
-    if (details.style.display === 'none') {
-        details.style.dysplay = 'block';
+    if (details.style.display === 'none' || details.style.display === '') {
+        details.style.display = 'block';
     } else {
         details.style.display = 'none';
     }
