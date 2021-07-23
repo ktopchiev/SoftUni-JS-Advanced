@@ -1,5 +1,5 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
-import { postFormData } from '../../postFormData.js';
+import { postFormData, clearForm } from '../../formActions.js';
 
 const showForm = html`
     <div class="new-topic-border">
@@ -20,7 +20,7 @@ const showForm = html`
                 <textarea type="text" name="postText" id="postText" rows="8" class="height"></textarea>
             </div>
             <div class="new-topic-buttons">
-                <button class="cancel">Cancel</button>
+                <button @click=${clearForm} class="cancel">Cancel</button>
                 <button @click=${postFormData} class="public">Post</button>
             </div>
     

@@ -2,7 +2,8 @@ import { createNewTopic } from "./service/topicService.js";
 
 function postFormData(e) {
     e.preventDefault();
-    let formData = new FormData(e.target.parentNode.parentNode);
+    let form = e.target.parentNode.parentNode;
+    let formData = new FormData(form);
     let time = new Date();
     let data = {
         title: formData.get('topicName'),
@@ -13,7 +14,7 @@ function postFormData(e) {
 
     if (validateData(data)) {
         createNewTopic(data);
-        document.getElementById('topicForm').reset();
+        form.reset();
     } else {
         return;
     }
@@ -27,4 +28,9 @@ function validateData(data) {
     return true;
 }
 
-export { postFormData };
+function clearForm(e) {
+    e.preventDefault();
+    e.target.parentNode.parentNode.reset();
+}
+
+export { postFormData, clearForm };
