@@ -1,5 +1,5 @@
-import showHomeTopics from './showHomeTopics.js';
-import { hideThemeContent } from './themeContentPage.js';
+import showHomeTopics from '../showHomeTopics.js';
+import { hideThemeContent } from './topicContentPage.js';
 
 let homePage = document.querySelector('#home-page');
 

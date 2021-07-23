@@ -1,4 +1,4 @@
-import { showThemeContent } from './themeContentPage.js';
+import { showThemeContent } from './pages/topicContentPage.js';
 import createElement from './createElement.js';
 
 export default function createTopicElement(data, id) {

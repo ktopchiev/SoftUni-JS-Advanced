@@ -1,7 +1,7 @@
-import updateTopicContent from "./updateTopicContent.js";
+import updateTopicContent from "../updateTopicContent.js";
 import { hideHome } from "./homePage.js";
-import createElement from "./createElement.js";
-import formDataValidate from "./formValidate.js";
+import createElement from "../createElement.js";
+import formDataValidate from "../formValidate.js";
 
 let commentsUrl = 'http://localhost:3030/jsonstore/collections/myboard/comments';
 let topicsUrl = 'http://localhost:3030/jsonstore/collections/myboard/posts';

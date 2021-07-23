@@ -1,7 +1,6 @@
 import formDataValidate from './formValidate.js';
-import { showHome } from './homePage.js';
-
-let postsUrl = 'http://localhost:3030/jsonstore/collections/myboard/posts';
+import { showHome } from './pages/homePage.js';
+import { posts } from './services/endpoints.js';
 
 let newTopicForm = document.querySelector('#new-topic-form');
 let cancelButton = document.querySelector('#new-topic-form button.cancel');
@@ -22,7 +21,7 @@ newTopicForm.addEventListener('submit', (e) => {
       return;
    }
 
-   fetch(postsUrl, {
+   fetch(posts, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(data)
