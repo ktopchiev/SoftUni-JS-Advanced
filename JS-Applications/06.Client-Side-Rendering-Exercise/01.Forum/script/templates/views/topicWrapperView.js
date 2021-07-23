@@ -14,8 +14,6 @@ export const topicWrapper = (topicData) => html`
                     <p>Username: <span>${topicData[1].username}</span></p>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>`;

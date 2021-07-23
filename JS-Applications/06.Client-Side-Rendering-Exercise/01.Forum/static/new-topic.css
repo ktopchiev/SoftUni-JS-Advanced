@@ -55,6 +55,7 @@
 .new-topic-title {
     display: flex;
     justify-content: space-between;
+    margin: 0.35em;
 }
 
 .new-topic-title input {
