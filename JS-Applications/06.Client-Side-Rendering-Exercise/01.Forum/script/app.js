@@ -3,4 +3,6 @@ import showHomePage from './templates/homePageTemplate.js';
 
 const rootDiv = document.getElementsByClassName('root')[0];
 
-render(showHomePage, rootDiv);
+
+
+render(showHomePage(topics), rootDiv);
