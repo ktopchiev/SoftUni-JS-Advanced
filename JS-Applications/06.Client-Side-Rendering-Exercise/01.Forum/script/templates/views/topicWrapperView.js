@@ -1,8 +1,9 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
+import { showTopic } from '../../renderTopicPage.js';
 
 
 export const topicWrapper = (topicData) => html`
-<div class="topic-name-wrapper">
+<div class="topic-name-wrapper" id="${topicData._id}">
     <div class="topic-name">
         <a @click=${showTopic} href="#" class="normal">
             <h2>${topicData[1].title}</h2>
