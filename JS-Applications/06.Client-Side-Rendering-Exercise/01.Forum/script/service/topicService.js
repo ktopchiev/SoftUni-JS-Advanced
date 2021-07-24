@@ -5,10 +5,9 @@ const getAllTopics = function () {
         .then(res => res.json());
 }
 
-const getTopicById = async (id) => {
-    let postData =  await fetch(`${posts}/${id}`);
-    let post = await postData.json();
-    return post;
+const getTopicById = (id) => {
+    return fetch(`${posts}/${id}`)
+        .then(res => res.json());
 }
 
 const createNewTopic = function (data) {

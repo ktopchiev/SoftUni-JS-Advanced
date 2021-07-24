@@ -5,8 +5,7 @@ import { topicPage } from './templates/pages/topicPageTemplate.js';
 
 let rootDiv = document.getElementsByClassName('root')[0];
 
-const showTopic = async (id) => {
-    let post = await getTopicById(id);
+const showTopic = (id) => {
 
     getAllComments().then(comments => {
         let commentsArr = [];
@@ -15,7 +14,10 @@ const showTopic = async (id) => {
                 commentsArr.push(comments[key]);
             }
         }
-        render(topicPage(post, commentsArr), rootDiv);
+
+        getTopicById(id).then(topic => {
+            render(topicPage(topic, commentsArr), rootDiv);
+        })
     });
 }
 
