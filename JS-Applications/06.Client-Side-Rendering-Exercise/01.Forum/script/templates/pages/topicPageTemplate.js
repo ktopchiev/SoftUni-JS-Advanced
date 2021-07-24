@@ -1,17 +1,17 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 import navBar from '../views/navbarView.js';
-import { comment } from '../views/postView.js';
+import { topicHeader } from '../views/postView.js';
 import footer from '../views/footerView.js';
 import { userComment } from '../views//userCommentView.js';
 
-let topicPage = (commentData) => html`
+let topicPage = (post, commentData) => html`
     <header>
         ${navBar}
     </header>
     
     <!-- homepage -->
     <div class="comment">
-        ${comment(commentData)}
+        ${topicHeader(post)}
         ${commentData.map(comment => html`${userComment(comment)}`)}
     </div>
     <footer>

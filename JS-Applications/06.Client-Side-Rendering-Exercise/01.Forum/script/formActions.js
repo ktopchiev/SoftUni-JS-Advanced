@@ -29,6 +29,7 @@ function postFormData(e) {
         let data = {
             username: formData.get('username'),
             content: formData.get('postText'),
+            topicId,
             time
         }
 

@@ -5,6 +5,12 @@ const getAllTopics = function () {
         .then(res => res.json());
 }
 
+const getTopicById = async (id) => {
+    let postData =  await fetch(`${posts}/${id}`);
+    let post = await postData.json();
+    return post;
+}
+
 const createNewTopic = function (data) {
     fetch(posts, {
         method: 'POST',
@@ -16,4 +22,5 @@ const createNewTopic = function (data) {
 export {
     getAllTopics,
     createNewTopic,
+    getTopicById
 };

@@ -13,4 +13,4 @@ const createNewComment = function (data) {
     })
 }
 
-export { getAllComments };
+export { getAllComments, createNewComment };

@@ -3,9 +3,9 @@ import { showTopic } from '../../renderTopicPage.js';
 
 
 export const topicWrapper = (topicData) => html`
-<div class="topic-name-wrapper" id="${topicData._id}">
+<div class="topic-name-wrapper" id="${topicData[1]._id}">
     <div class="topic-name">
-        <a @click=${showTopic} href="#" class="normal">
+        <a @click=${showTopic(topicData[1]._id)} href="#" class="normal">
             <h2>${topicData[1].title}</h2>
         </a>
         <div class="columns">
