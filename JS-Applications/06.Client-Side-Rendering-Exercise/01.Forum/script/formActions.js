@@ -1,4 +1,5 @@
 import { createNewTopic } from "./service/topicService.js";
+import { renderTopics } from './renderTopicContainer.js';
 
 function postFormData(e) {
     e.preventDefault();
@@ -15,6 +16,8 @@ function postFormData(e) {
     if (validateData(data)) {
         createNewTopic(data);
         form.reset();
+        let topicTitle = document.querySelector('div.topic-title');
+        renderTopics(topicTitle);
     } else {
         return;
     }

@@ -4,7 +4,7 @@ import { html } from '../../../node_modules/lit-html/lit-html.js';
 export const topicWrapper = (topicData) => html`
 <div class="topic-name-wrapper">
     <div class="topic-name">
-        <a href="#" class="normal">
+        <a @click=${showTopic} href="#" class="normal">
             <h2>${topicData[1].title}</h2>
         </a>
         <div class="columns">
