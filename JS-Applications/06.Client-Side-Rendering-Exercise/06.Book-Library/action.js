@@ -2,12 +2,14 @@ import { postBook, putBook, getBook, deleteBook, getAllBooks } from './service/b
 import {render} from './../node_modules/lit-html/lit-html.js';
 import { editFormView } from './templates/editFormView.js';
 import { tableView } from './templates/tableView.js';
+import { addFormView } from './templates/addFormView.js';
 
-function addBook(e) {
+async function addBook(e) {
     e.preventDefault();
     let form = e.target.parentNode;
     let formData = new FormData(form);
     let notification = form.querySelector('p.notification');
+    let sectionTable = document.querySelector('section#table');
 
     let dataObj = {
         title: formData.get('title'),
@@ -23,6 +25,8 @@ function addBook(e) {
 
     form.reset();
     postBook(dataObj);
+    let books = await getAllBooks();
+    render(tableView(books), sectionTable);
 }
 
 async function editBook(e) {
@@ -45,6 +49,8 @@ async function updateBook(e) {
     let form = e.target.parentNode;
     let formData = new FormData(form);
     let notification = form.querySelector('p.notification');
+    let formDiv = document.querySelector('#form');
+    let sectionTable = document.querySelector('#table');
     let id = form.getAttribute('value');
     let dataObj = {
         title: formData.get('title'),
@@ -59,7 +65,10 @@ async function updateBook(e) {
     }
 
     form.reset();
-    putBook(dataObj, id);
+    await putBook(dataObj, id);
+    let books = await getAllBooks();
+    render(tableView(books), sectionTable);
+    render(addFormView(), formDiv);
 }
 
 async function removeBook(e) {
