@@ -7,6 +7,6 @@ export default async function(context) {
     let rootDiv = document.querySelector('.root');
     let header = document.querySelector('header');
     let data = await getAllFurniture();
-    render(headerGuestTemplate(), header);
+    render(headerGuestTemplate(context), header);
     render(catalogTemplate(data), rootDiv);
 }

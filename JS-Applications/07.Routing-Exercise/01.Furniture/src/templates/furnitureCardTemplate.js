@@ -7,10 +7,10 @@ const furnitureCardTemplate = (furniture) => html`
                 <img src="${furniture.img}" />
                 <p>${furniture.description}</p>
                 <footer>
-                    <p>Price: <span>${furniture.price}</span></p>
+                    <p>Price: <span>${furniture.price} $</span></p>
                 </footer>
                 <div>
-                    <a href="#" class="btn btn-info">Details</a>
+                    <a href="/dashboard/${furniture._id}" class="btn btn-info">Details</a>
                 </div>
             </div>
         </div>
