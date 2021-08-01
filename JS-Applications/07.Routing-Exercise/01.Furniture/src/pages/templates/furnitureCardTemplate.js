@@ -1,4 +1,4 @@
-import { html } from "./../../node_modules/lit-html/lit-html.js";
+import { html } from "./../../../node_modules/lit-html/lit-html.js";
 
 const furnitureCardTemplate = (furniture) => html`
     <div class="col-md-4">

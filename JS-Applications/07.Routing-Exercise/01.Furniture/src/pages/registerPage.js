@@ -1,6 +1,6 @@
 import { render } from "./../../node_modules/lit-html/lit-html.js";
-import headerGuestTemplate from "../templates/headerGuestTemplate.js";
-import { registerTemplate } from "../templates/registerTemplate.js";
+import headerGuestTemplate from "./templates/headerGuestTemplate.js";
+import { registerTemplate } from "./templates/registerTemplate.js";
 
 export default function (context) {
     let header = document.querySelector('header');

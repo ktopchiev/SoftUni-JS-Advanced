@@ -1,13 +1,14 @@
 import page from './../node_modules/page/page.mjs';
-import furnitureDetailsView from './views/furnitureDetailsView.js';
-import homePageView from './views/homePageView.js';
-import logInView from './views/logInView.js';
-import registerView from './views/registerView.js';
+import furnitureDetailsPage from './pages/furnitureDetailsPage.js';
+import homePage from './pages/homePage.js';
+import logInPage from './pages/logInPage.js';
+import registerPage from './pages/registerPage.js';
 
-page('/', homePageView);
-page('/login', logInView);
-page('/register', registerView);
-page('/dashboard', homePageView);
-page('/dashboard/:id', furnitureDetailsView);
+page('/login', logInPage.getView);
+page('/register', registerPage);
+page('/dashboard', homePage);
+page('/', '/dashboard');
+page('/index.html', '/dashboard')
+page('/dashboard/:id', furnitureDetailsPage);
 
 page.start();
