@@ -9,7 +9,7 @@ let createTemplate = (form) => html`
                 <p>Please fill all fields.</p>
             </div>
         </div>
-        <form @submit=${form.createFurniture()}>
+        <form @submit=${form.createFurniture}>
             <div class="row space-top">
                 <div class="col-md-4">
                     <div class="form-group">

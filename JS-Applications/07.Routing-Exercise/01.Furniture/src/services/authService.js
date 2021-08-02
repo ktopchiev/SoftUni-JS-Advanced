@@ -23,7 +23,7 @@ async function logOut() {
 
 async function register(userdata) {
     let response = await jsonRequest(registerUrl, 'Post', userdata, false, false);
-    console.log(res);
+    console.log(response);
     localStorageSet(response);
 
     return response;
@@ -41,5 +41,5 @@ export default {
     getAuthToken,
     logOut,
     register,
-    
+
 };

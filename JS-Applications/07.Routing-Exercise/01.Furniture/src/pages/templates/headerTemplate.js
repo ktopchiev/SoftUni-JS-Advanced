@@ -30,4 +30,12 @@ function setActiveClass(path, href) {
     }
 }
 
-export default headerTemplate;
+function getView(context, next) {
+    let result = headerTemplate(context);
+    context.renderNav(result);
+    next();
+}
+
+export default {
+    getView,
+};

@@ -1,10 +1,28 @@
-import headerTemplate from './templates/headerTemplate.js';
-import catalogTemplate from './templates/catalogTemplate.js';
-import { getAllFurniture } from '../services/catalogService.js';
-import renderer from "../middleware/renderer.js";
+import { getAllFurniture } from "../services/catalogService.js";
+import { html } from "./../../../node_modules/lit-html/lit-html.js";
+import furnitureCardTemplate from "./templates/furnitureCardTemplate.js";
 
-export default async function(context) {
-    let data = await getAllFurniture();
-    renderer.renderNav(headerTemplate(context));
-    renderer.renderView(catalogTemplate(data));
+const catalogTemplate = (furnitureData) => html`
+    <div class="container">
+        <div class="row space-top">
+            <div class="col-md-12">
+                <h1>Welcome to Furniture System</h1>
+                <p>Select furniture from the catalog to view details.</p>
+            </div>
+        </div>
+        <div class="row space-top">
+            ${furnitureData.map(f => html`${furnitureCardTemplate(f)}`)}
+        </div>
+    </div>
+`;
+
+async function getView(context) {
+    let allFurniture = await getAllFurniture();
+    let result = catalogTemplate(allFurniture);
+    console.log('render');
+    context.renderView(result);
+}
+
+export default {
+    getView,
 }

@@ -1,5 +1,5 @@
-import { html } from "lit-html";
-import authService from "../services/authService";
+import { html } from "./../../node_modules/lit-html/lit-html.js";
+import authService from "../services/authService.js";
 
 const registerTemplate = (form) => html`
     <div class="container">
@@ -9,7 +9,7 @@ const registerTemplate = (form) => html`
                 <p>Please fill all fields.</p>
             </div>
         </div>
-        <form>
+        <form @submit=${form.onSubmit}>
             <div class="row space-top">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -24,7 +24,7 @@ const registerTemplate = (form) => html`
                         <label class="form-control-label" for="rePass">Repeat</label>
                         <input class="form-control" id="rePass" type="password" name="rePass">
                     </div>
-                    <input type="submit" @submit=${register()} class="btn btn-primary" value="Register" />
+                    <input type="submit" class="btn btn-primary" value="Register" />
                 </div>
             </div>
         </form>
@@ -33,13 +33,13 @@ const registerTemplate = (form) => html`
 
 function getView(context) {
     let form = {
-        register,
+        onSubmit,
     }
 
     let result = registerTemplate(form);
     context.renderView(result);
 
-    async function register(e) {
+    async function onSubmit(e) {
         e.preventDefault();
 
         let form = e.currentTarget;
@@ -50,7 +50,7 @@ function getView(context) {
         let rePass = formData.get('rePass');
 
         let response = await authService.register({ email, password });
-
+        console.log(response);
         context.page.redirect('/dashboard');
 
     }
