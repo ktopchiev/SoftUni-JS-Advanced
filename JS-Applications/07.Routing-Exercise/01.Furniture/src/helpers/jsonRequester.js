@@ -1,4 +1,4 @@
-import authService from "../src/services/authService.js";
+import authService from "../services/authService.js";
 
 export async function jsonRequest(url, method, body, isAuthorized, skipResult) {
     if (method === undefined) {
@@ -30,6 +30,7 @@ export async function jsonRequest(url, method, body, isAuthorized, skipResult) {
     }
 
     let result = undefined;
+    
     if (!skipResult) {
         result = await response.json();
     }

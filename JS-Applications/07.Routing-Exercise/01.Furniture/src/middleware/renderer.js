@@ -11,8 +11,14 @@ function renderNav(template) {
     render(template, header);
 }
 
-export function decorateContext(context, next) {
+function decorateContext(context, next) {
     context.renderView = renderView;
     context.renderNav = renderNav;
     next();
+}
+
+export default {
+    decorateContext,
+    renderView,
+    renderNav
 }

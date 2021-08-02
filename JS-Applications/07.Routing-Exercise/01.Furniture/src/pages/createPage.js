@@ -1,31 +1,7 @@
-<!doctype html>
-<html lang="en">
+import { postNewFurniture } from "../services/catalogService.js";
+import { html } from "./../../node_modules/lit-html/lit-html.js";
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./static/style.css">
-    <title>Furniture</title>
-
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-
-<body>
-    <header>
-        <h1><a href="/">Furniture Store</a></h1>
-        <nav>
-            <a id="catalogLink" href="index.html" >Dashboard</a>
-            <div id="user">
-                <a id="createLink" href="create.html" class="active">Create Furniture</a>
-                <a id="profileLink" href="my-furniture.html" >My Publications</a>
-                <a id="logoutBtn" href="javascript:void(0)">Logout</a>
-            </div>
-            <!-- <div id="guest">
-                <a id="loginLink" href="login.html">Login</a>
-                <a id="registerLink" href="register.html">Register</a>
-            </div> -->
-        </nav>
-    </header>
+let createTemplate = (form) => html`
     <div class="container">
         <div class="row space-top">
             <div class="col-md-12">
@@ -33,7 +9,7 @@
                 <p>Please fill all fields.</p>
             </div>
         </div>
-        <form>
+        <form @submit=${form.createFurniture()}>
             <div class="row space-top">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -71,8 +47,34 @@
             </div>
         </form>
     </div>
+`;
 
+function getView(context) {
+    let form = {
+        createFurniture,
+    }
 
-</body>
+    let result = createTemplate(form);
+    context.renderView(result);
 
-</html>
+    async function createFurniture(e) {
+        e.preventDefault();
+
+        let form = e.currentTarget;
+        let formData = new FormData(form);
+
+        let make = formData.get('make');
+        let model = formData.get('model');
+        let year = formData.get('year');
+        let description = formData.get('description');
+        let price = formData.get('price');
+        let image = formData.get('img');
+        let material = formData.get('material');
+
+        let response = await postNewFurniture({ make, model, year, description, price, image, material });
+
+        context.page.redirect('/my-furniture');
+    }
+}
+
+export default { getView };

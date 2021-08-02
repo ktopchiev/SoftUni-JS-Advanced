@@ -1,3 +1,4 @@
+import { jsonRequest } from '../helpers/jsonRequester.js';
 import { catalogUrl } from './endpoints.js'
 
 async function getAllFurniture() {
@@ -12,4 +13,9 @@ async function getFurnitureById(id) {
     return furnitureData;
 }
 
-export { getAllFurniture, getFurnitureById };
+async function postNewFurniture(data) {
+    let res = await jsonRequest(catalogUrl, 'Post', data, true);
+    return res;
+}
+
+export { getAllFurniture, getFurnitureById, postNewFurniture };
