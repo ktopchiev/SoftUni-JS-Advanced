@@ -4,7 +4,7 @@ export async function jsonRequest(url, method, body, isAuthorized, skipResult) {
     if (method === undefined) {
         method = 'Get';
     }
-    console.log(url);
+ 
     let headers = {};
     if (['post', 'put', 'patch'].includes(method.toLowerCase())) {
         headers['Content-Type'] = 'application/json';
@@ -24,6 +24,7 @@ export async function jsonRequest(url, method, body, isAuthorized, skipResult) {
     }
 
     let response = await fetch(url, options);
+    
     if (!response.ok) {
         let message = await response.text();
         throw new Error(`${response.status}: ${response.statusText}\n${message}`);

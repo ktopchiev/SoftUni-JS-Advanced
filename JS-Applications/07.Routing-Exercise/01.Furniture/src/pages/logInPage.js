@@ -14,11 +14,11 @@ const logInTemplate = (form) => html`
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-control-label" for="email">Email</label>
-                        <input class="form-control" id="email" type="text" name="email">
+                        <input class="form-control" id="email" type="text" name="email" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="password">Password</label>
-                        <input class="form-control" id="password" type="password" name="password">
+                        <input class="form-control" id="password" type="password" name="password" autocomplete="off">
                     </div>
                     <input type="submit" class="btn btn-primary" value="Login" />
                 </div>

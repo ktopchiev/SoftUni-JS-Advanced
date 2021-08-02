@@ -19,7 +19,6 @@ const catalogTemplate = (furnitureData) => html`
 async function getView(context) {
     let allFurniture = await getAllFurniture();
     let result = catalogTemplate(allFurniture);
-    console.log('render');
     context.renderView(result);
 }
 

@@ -18,11 +18,11 @@ const registerTemplate = (form) => html`
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="password">Password</label>
-                        <input class="form-control" id="password" type="password" name="password">
+                        <input class="form-control" id="password" type="password" name="password" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="rePass">Repeat</label>
-                        <input class="form-control" id="rePass" type="password" name="rePass">
+                        <input class="form-control" id="rePass" type="password" name="rePass" autocomplete="off">
                     </div>
                     <input type="submit" class="btn btn-primary" value="Register" />
                 </div>
@@ -50,7 +50,6 @@ function getView(context) {
         let rePass = formData.get('rePass');
 
         let response = await authService.register({ email, password });
-        console.log(response);
         context.page.redirect('/dashboard');
 
     }

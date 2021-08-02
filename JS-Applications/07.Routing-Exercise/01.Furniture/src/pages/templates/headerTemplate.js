@@ -10,7 +10,7 @@ const headerTemplate = (context) => {
                 ? html `
                 <div id="user">
                     <a id="createLink" href="/create" class="${setActiveClass(context.path, '/create')}">Create Furniture</a>
-                    <a id="profileLink" href="/my-furniture" >My Publications</a>
+                    <a id="profileLink" href="/my-furniture" class="${setActiveClass(context.path, '/my-furniture')}">My Publications</a>
                     <a id="logoutBtn" href="/logout">Logout</a>
                 </div>`
                 : html `

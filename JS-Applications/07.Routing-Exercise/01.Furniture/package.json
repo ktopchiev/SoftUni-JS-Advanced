@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -a localhost -p 8000 -c-1"
+    "start": "http-server -a localhost -p 8000 -P http://localhost:8000? -c-1"
   },
   "keywords": [],
   "author": "",
