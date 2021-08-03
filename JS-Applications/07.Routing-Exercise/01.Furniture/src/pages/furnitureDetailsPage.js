@@ -46,9 +46,7 @@ async function getView(context) {
     context.renderView(result);
 
     async function deleteEvent(e) {
-        console.log('here');
         e.preventDefault();
-        console.log('delete');
         let confirmation = confirm('Are you sure that you want to delete this furniture?');
 
         if (confirmation) {
