@@ -3,8 +3,8 @@ import * as request from "./requester.js";
 
 let baseMemeUrl = api.memesUrl;
 
-function createMeme(title, descritpion, imageUrl) {
-    return request.post(api.memesUrl, { title, descritpion, imageUrl });
+function createMeme(title, description, imageUrl) {
+    return request.post(api.memesUrl, { title, description, imageUrl });
 }
 
 function getAll() {

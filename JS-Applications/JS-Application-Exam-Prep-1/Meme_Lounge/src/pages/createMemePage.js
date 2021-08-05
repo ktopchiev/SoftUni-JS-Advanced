@@ -35,6 +35,9 @@ function getView(context) {
         let imageUrl = formData.get('imageUrl');
 
         if (!title || !description || !imageUrl) {
+            let notificationsElement = document.querySelector('.notification');
+            notificationsElement.querySelector('span').textContent = 'All fields are required';
+            notificationsElement.style.display = 'block';
             return;
         }
 

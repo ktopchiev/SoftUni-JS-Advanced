@@ -11,17 +11,21 @@ function isLoggedIn() {
 }
 
 function getUserData() {
-    let email = localStorage.getItem('email');
     let id = localStorage.getItem('_id');
+    let username = localStorage.getItem('username');
+    let email = localStorage.getItem('email');
     let accessToken = localStorage.getItem('accessToken');
+    let gender = localStorage.getItem('gender');
 
-    return { email, id, accessToken };
+    return { id, username, email, accessToken, gender };
 }
 
-function saveUserData({ _id, email, accessToken }) {
+function saveUserData({ _id, username, email, accessToken, gender }) {
     localStorage.setItem('_id', _id);
+    localStorage.setItem('username', username);
     localStorage.setItem('email', email);
     localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('gender', gender);
 }
 
 function logIn(email, password) {
@@ -36,8 +40,7 @@ function logOut(context) {
     request.get(api.logOutUrl).then(() => {
         localStorage.clear();
         context.page.redirect('/home');
-    })
-        .catch(error => console.log(error));
+    });
 }
 
 function getToken() {
@@ -47,6 +50,7 @@ function getToken() {
 function register(username, email, password, gender) {
     return request.post(api.registerUrl, { username, email, password, gender })
         .then(data => {
+            console.log(`register-post-return: ${data}`);
             saveUserData(data);
         });
 }

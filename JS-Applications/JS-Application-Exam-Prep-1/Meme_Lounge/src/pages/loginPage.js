@@ -30,12 +30,16 @@ function getView(context) {
         let password = formData.get('password').trim()
 
         if (!email && !password) {
+            let notificationsElement = document.querySelector('.notification');
+            notificationsElement.querySelector('span').textContent = 'All fields are required';
+            notificationsElement.style.display = 'block';
             return;
         }
 
-        authService.logIn(email, password).then(() => {
-            context.page.redirect('/home');
-        })
+        authService.logIn(email, password)
+            .then(() => {
+                context.page.redirect('/home');
+            });
     }
 
     let templateResult = loginTemplate(onSubmit);

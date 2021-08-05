@@ -44,7 +44,7 @@ function getView(context) {
         let email = formData.get('email');
         let password = formData.get('password');
         let gender = formData.get('gender');
-
+        console.log(`register-form: ${gender}`);
         if (!username || !email || !password || !gender) {
             return;
         }

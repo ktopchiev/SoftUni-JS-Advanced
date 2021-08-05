@@ -9,10 +9,10 @@ const userMemeTemplate = ({ title, imageUrl, _id }) => html`
     </div>
 `;
 
-const userPersonalTemplate = ({ username, email }, memes) => html`
+const userPersonalTemplate = ({ username, email, gender }, memes) => html`
     <section id="user-profile-page" class="user-profile">
         <article class="user-info">
-            <img id="user-avatar-url" alt="user-profile" src="/images/female.png">
+            <img id="user-avatar-url" alt="user-profile" src="${`/images/${gender}.png`}">
             <div class="user-content">
                 <p>Username: ${username} </p>
                 <p>Email: ${email} </p>
@@ -21,7 +21,10 @@ const userPersonalTemplate = ({ username, email }, memes) => html`
         </article>
         <h1 id="user-listings-title">User Memes</h1>
         <div class="user-meme-listings">
-            ${memes.map(m => html`${userMemeTemplate(m)}`)}
+        ${memes.length !== 0
+            ? memes.map(m => html`${userMemeTemplate(m)}`)
+            : html `<p class="no-memes">No memes in database.</p>`
+        }
         </div>
     </section>
 `;
