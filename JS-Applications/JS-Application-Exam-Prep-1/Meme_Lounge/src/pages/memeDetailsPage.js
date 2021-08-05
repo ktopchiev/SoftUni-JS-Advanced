@@ -32,7 +32,6 @@ function getView(context) {
     memeService.getOne(id)
         .then(data => {
             let userData = context.userData;
-            console.log(userData.id);
             let templateResult = memeDetailsTemplate(data, userData.id, onClickDelete);
             context.renderContent(templateResult);
         });

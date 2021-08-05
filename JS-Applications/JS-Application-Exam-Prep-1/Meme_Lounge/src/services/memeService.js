@@ -23,10 +23,15 @@ function updateMeme(title, description, imageUrl, id) {
     return request.put(`${baseMemeUrl}/${id}`, { title, description, imageUrl });
 }
 
+function getOwnMemes(userId) {
+    return request.get(`${baseMemeUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`);
+}
+
 export default {
     createMeme,
     getAll,
     getOne,
     deleteOne,
     updateMeme,
+    getOwnMemes,
 }

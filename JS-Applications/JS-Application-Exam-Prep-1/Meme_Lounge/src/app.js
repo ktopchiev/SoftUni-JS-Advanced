@@ -11,6 +11,7 @@ import createMemePage from './pages/createMemePage.js';
 import allMemesPage from "./pages/allMemesPage.js";
 import memeDetailsPage from './pages/memeDetailsPage.js';
 import editPage from "./pages/editPage.js";
+import userPersonalPage from "./pages/userPersonalPage.js";
 
 page(authMiddleware.getUserData);
 page(decorateContext);
@@ -26,5 +27,7 @@ page('/create', createMemePage.getView);
 page('/all-memes', allMemesPage.getView);
 page('/all-memes/:id', memeDetailsPage.getView);
 page('/all-memes/edit/:id', editPage.getView);
+page('/my-profile', userPersonalPage.getView);
+page('/my-profile/:id', memeDetailsPage.getView);
 
 page.start();
