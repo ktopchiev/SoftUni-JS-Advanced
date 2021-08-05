@@ -10,6 +10,7 @@ import registerPage from './pages/registerPage.js';
 import createMemePage from './pages/createMemePage.js';
 import allMemesPage from "./pages/allMemesPage.js";
 import memeDetailsPage from './pages/memeDetailsPage.js';
+import editPage from "./pages/editPage.js";
 
 page(authMiddleware.getUserData);
 page(decorateContext);
@@ -24,5 +25,6 @@ page('/register', registerPage.getView);
 page('/create', createMemePage.getView);
 page('/all-memes', allMemesPage.getView);
 page('/all-memes/:id', memeDetailsPage.getView);
+page('/all-memes/edit/:id', editPage.getView);
 
 page.start();

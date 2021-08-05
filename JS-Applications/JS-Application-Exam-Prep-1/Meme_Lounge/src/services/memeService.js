@@ -19,9 +19,14 @@ function deleteOne(id) {
     return request.del(`${baseMemeUrl}/${id}`);
 }
 
+function updateMeme(title, description, imageUrl, id) {
+    return request.put(`${baseMemeUrl}/${id}`, { title, description, imageUrl });
+}
+
 export default {
     createMeme,
     getAll,
     getOne,
     deleteOne,
+    updateMeme,
 }

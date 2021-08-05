@@ -2,13 +2,12 @@ import { html } from "./../../node_modules/lit-html/lit-html.js";
 
 import memeService from "../services/memeService.js";
 
-const buttonsTemplate = (onClickDelete) => html`
-    <!-- Buttons Edit/Delete should be displayed only for creator of this meme  -->
-    <a class="button warning" href="/edit">Edit</a>
+const buttonsTemplate = (onClickDelete, memeId) => html`
+    <a class="button warning" href="/all-memes/edit/${memeId} ">Edit</a>
     <button @click=${onClickDelete} class="button danger">Delete</button>
 `;
 
-const memeDetailsTemplate = ({ title, description, imageUrl, _ownerId }, userId, onClick) => html`
+const memeDetailsTemplate = ({ title, description, imageUrl, _ownerId, _id }, userId, onClick) => html`
     <section id="meme-details">
         <h1>Meme Title: ${title}</h1>
         <div class="meme-details">
@@ -20,7 +19,7 @@ const memeDetailsTemplate = ({ title, description, imageUrl, _ownerId }, userId,
                 <p>
                     ${description}
                 </p>
-                ${userId === _ownerId ? buttonsTemplate(onClick) : html``}
+                ${userId === _ownerId ? buttonsTemplate(onClick, _id) : html``}
     
             </div>
         </div>
