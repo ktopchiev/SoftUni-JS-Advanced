@@ -37,6 +37,13 @@ function getView(context) {
         let description = formData.get('description');
         let imageUrl = formData.get('imageUrl');
 
+        if (!title || !description || !imageUrl) {
+            let notificationsElement = document.querySelector('.notification');
+            notificationsElement.querySelector('span').textContent = 'All fields are required';
+            notificationsElement.style.display = 'block';
+            return;
+        }
+
         memeService.updateMeme(title, description, imageUrl, memeId)
             .then(() => {
                 context.page.redirect(`/all-memes/${memeId}`);

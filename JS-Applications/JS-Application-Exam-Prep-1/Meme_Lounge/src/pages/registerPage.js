@@ -14,7 +14,7 @@ const registerTemplate = (onSubmit) => html`
                 <label for="password">Password</label>
                 <input id="password" type="password" placeholder="Enter Password" name="password">
                 <label for="repeatPass">Repeat Password</label>
-                <input id="repeatPass" type="password" placeholder="Repeat Password" name="repeatPacss">
+                <input id="repeatPass" type="password" placeholder="Repeat Password" name="repeatPass">
                 <div class="gender">
                     <input type="radio" name="gender" id="female" value="female">
                     <label for="female">Female</label>
@@ -44,8 +44,11 @@ function getView(context) {
         let email = formData.get('email');
         let password = formData.get('password');
         let gender = formData.get('gender');
-        console.log(`register-form: ${gender}`);
+
         if (!username || !email || !password || !gender) {
+            let notificationsElement = document.querySelector('.notification');
+            notificationsElement.querySelector('span').textContent = 'All fields are required';
+            notificationsElement.style.display = 'block';
             return;
         }
 

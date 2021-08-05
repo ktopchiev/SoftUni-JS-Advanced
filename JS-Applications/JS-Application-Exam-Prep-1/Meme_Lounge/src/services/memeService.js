@@ -8,7 +8,7 @@ function createMeme(title, description, imageUrl) {
 }
 
 function getAll() {
-    return request.get(`${baseMemeUrl}/?sortBy=_createdOn%20desc`);
+    return request.get(`${baseMemeUrl}?sortBy=_createdOn%20desc`);
 }
 
 function getOne(id) {

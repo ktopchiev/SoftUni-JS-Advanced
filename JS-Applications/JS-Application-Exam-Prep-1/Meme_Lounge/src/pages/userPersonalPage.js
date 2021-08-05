@@ -21,6 +21,7 @@ const userPersonalTemplate = ({ username, email, gender }, memes) => html`
         </article>
         <h1 id="user-listings-title">User Memes</h1>
         <div class="user-meme-listings">
+            ${console.log(memes)}
         ${memes.length !== 0
             ? memes.map(m => html`${userMemeTemplate(m)}`)
             : html `<p class="no-memes">No memes in database.</p>`

@@ -37,7 +37,7 @@ describe('E2E tests', function () {
     if (DEBUG) {
         this.timeout(120000);
     } else {
-        this.timeout(6000);
+        this.timeout(30000);
     }
 
     before(async () => {
