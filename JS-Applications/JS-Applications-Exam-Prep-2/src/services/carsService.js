@@ -28,7 +28,7 @@ function getOwnCars(userId) {
 }
 
 function search(year) {
-    return request.get(`${baseCarsUrl}?where=year%20LIKE%20%22${year}%22`);
+    return request.get(`${baseCarsUrl}?where=year%3D${year}`);
 }
 
 

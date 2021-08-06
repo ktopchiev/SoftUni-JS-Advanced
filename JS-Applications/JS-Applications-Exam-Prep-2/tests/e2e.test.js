@@ -501,7 +501,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe('Search Page [ 5 Points ]', async () => {
+    describe.only('Search Page [ 5 Points ]', async () => {
 
         it('show no matches [ 2.5 Points ]', async () => {
             await handle(endpoints.search('2010'), { get: [] });
