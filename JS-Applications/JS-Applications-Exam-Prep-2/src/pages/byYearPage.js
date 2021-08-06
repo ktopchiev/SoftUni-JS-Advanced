@@ -1,4 +1,7 @@
+import carsService from "../services/carsService.js";
 import { html } from "./../../node_modules/lit-html/lit-html.js";
+
+import { carTemplate } from "./carTemplate.js";
 
 const filterByYearTemplate = (onClick) => html`
     <section id="search-cars">
@@ -12,22 +15,7 @@ const filterByYearTemplate = (onClick) => html`
         <h2>Results:</h2>
         <div class="listings">
     
-            <!-- Display all records -->
-            <div class="listing">
-                <div class="preview">
-                    <img src="/images/audia3.jpg">
-                </div>
-                <h2>Audi A3</h2>
-                <div class="info">
-                    <div class="data-info">
-                        <h3>Year: 2018</h3>
-                        <h3>Price: 25000 $</h3>
-                    </div>
-                    <div class="data-buttons">
-                        <a href="#" class="button-carDetails">Details</a>
-                    </div>
-                </div>
-            </div>
+    
     
             <!-- Display if there are no matches -->
             <p class="no-cars"> No results.</p>
@@ -36,9 +24,23 @@ const filterByYearTemplate = (onClick) => html`
 `;
 
 function getView(context) {
-    
-    
-    function onClick(e) {
+    let templateResult = filterByYearTemplate(onClick);
+    context.renderContent(templateResult);
 
+    function onClick(e) {
+        let input = e.target.parentNode.querySelector('input');
+
+        carsService.search(Number(input.value))
+            .then(data => {
+                let fragment = new DocumentFragment();
+                data.forEach(element => {
+                    fragment.appendChild(carTemplate(element))
+                });
+                context.renderSearchResults(fragment);
+            })
     }
+}
+
+export default {
+    getView
 }

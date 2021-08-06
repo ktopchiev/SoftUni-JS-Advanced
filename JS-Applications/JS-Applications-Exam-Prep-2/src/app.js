@@ -12,6 +12,7 @@ import allCarsPage from "./pages/allCarsPage.js";
 import carDetailsPage from './pages/carDetailsPage.js';
 import editPage from "./pages/editPage.js";
 import userListingsTemplate from "./pages/myListingsPage.js";
+import byYearPage from './pages/byYearPage.js';
 
 page(authMiddleware.getUserData);
 page(decorateContext);
@@ -29,5 +30,6 @@ page('/all-listings/:id', carDetailsPage.getView);
 page('/all-listings/edit/:id', editPage.getView);
 page('/my-listings', userListingsTemplate.getView);
 page('/my-listings/:id', carDetailsPage.getView);
+page('/by-year', byYearPage.getView);
 
 page.start();

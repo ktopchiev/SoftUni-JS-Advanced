@@ -27,6 +27,10 @@ function getOwnCars(userId) {
     return request.get(`${baseCarsUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`);
 }
 
+function search(year) {
+    return request.get(`${baseCarsUrl}?where=year%20LIKE%20%22${year}%22`);
+}
+
 
 export default {
     createCar,
@@ -35,4 +39,5 @@ export default {
     deleteOne,
     updateCar,
     getOwnCars,
+    search
 }
