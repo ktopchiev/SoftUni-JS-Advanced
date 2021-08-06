@@ -3,8 +3,8 @@ const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
 const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
-const interval = 300;
-const DEBUG = false;
+const interval = 600;
+const DEBUG = true;
 const slowMo = 500;
 
 const mockData = require('./mock-data.json');
@@ -27,7 +27,7 @@ let page;
 
 describe('E2E tests', function () {
     // Setup
-    this.timeout(DEBUG ? 120000 : 6000);
+    this.timeout(DEBUG ? 120000 : 20000);
     before(async () => browser = await chromium.launch(DEBUG ? { headless: false, slowMo } : {}));
     after(async () => await browser.close());
     beforeEach(async () => {
@@ -486,7 +486,7 @@ describe('E2E tests', function () {
             expect(visible).to.be.true;
         });
 
-        it('check profile page with 2 listings [ 5 Points ]', async () => {
+        it.only('check profile page with 2 listings [ 5 Points ]', async () => {
             const { get } = await handle(endpoints.profile(mockData.users[0]._id));
             get(mockData.catalog.slice(0, 2));
 

@@ -53,9 +53,9 @@ function getView(context) {
         let brand = formData.get('brand');
         let model = formData.get('model');
         let description = formData.get('description');
-        let year = formData.get('year');
+        let year = Number(formData.get('year'));
         let imageUrl = formData.get('imageUrl');
-        let price = formData.get('price');
+        let price = Number(formData.get('price'));
 
         if (!brand || !model || !description || !year || !imageUrl || !price) {
             return;

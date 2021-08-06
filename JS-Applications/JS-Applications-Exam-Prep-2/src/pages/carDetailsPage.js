@@ -16,10 +16,10 @@ const memeDetailsTemplate = ({ brand, model, year, price, description, imageUrl,
             <img src="${imageUrl} ">
             <hr>
             <ul class="listing-props">
-                <li><span>Brand:</span>${brand} </li>
-                <li><span>Model:</span>${model} </li>
-                <li><span>Year:</span>${year} </li>
-                <li><span>Price:</span>${price} $</li>
+                <li><span>Brand:</span> ${brand}</li>
+                <li><span>Model:</span> ${model}</li>
+                <li><span>Year:</span> ${year}</li>
+                <li><span>Price:</span> ${price} $</li>
             </ul>
     
             <p class="description-para">${description}</p>
